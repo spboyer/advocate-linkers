@@ -1,0 +1,25 @@
+<html>
+
+<head>
+  <title></title>
+</head>
+
+<body>
+  <ul>
+    <li><a href="https://google.com/foo">Google</a></li>
+    <li><a href="https://docs.microsoft.com/en-us/bot-framework/bot-service-quickstart">Docs link 1</a></li>
+    <li><a href="https://docs.microsoft.com/en-us/bot-framework/bot-service-quickstart?WT.mc_id=1-2-3">Docs link 2</a></li>
+    <li><a href="https://docs.microsoft.com/en-us/bot-framework/bot-service-quickstart?foo=1-2-3">Docs link 3</a></li>
+  </ul>
+
+  <script src="../src/cda-tracker.js"></script>
+  <script>
+    cdaTracker({
+      domains: ['google.com'],
+      event: "azure",
+      channel: "blog",
+      alias: 'antchu'
+    });
+  </script>
+</body>
+</html>
