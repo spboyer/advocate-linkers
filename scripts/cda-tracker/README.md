@@ -1,5 +1,7 @@
 # CDA Link Tracker
 
+*Original source from [anthonychu/cda-tracker](https://github.com/anthonychu/cda-tracker)*
+
 Appends `WT.mc_id=` referral query string to all links that have the following domains:
 
 * *.microsoft.com
