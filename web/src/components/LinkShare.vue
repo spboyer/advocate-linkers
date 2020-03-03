@@ -1,3 +1,214 @@
+<script>
+/* eslint-disable no-console */
+
+import storage from "../modules/storage";
+import service from "../modules/services";
+import tracking from "../modules/tracking";
+
+import IconMicrosoft from "./icons/IconMicrosoft.vue";
+
+import IconTwitter from "./icons/IconTwitter.vue";
+import IconLinkedIn from "./icons/IconLinkedIn.vue";
+import IconReddit from "./icons/IconReddit.vue";
+import IconFacebook from "./icons/IconFacebook.vue";
+import IconStackOverflow from "./icons/IconStackOverflow.vue";
+import IconHackerNews from "./icons/IconHackerNews.vue";
+import IconMedium from "./icons/IconMedium.vue";
+import IconDevTo from "./icons/IconDevTo.vue";
+import IconYouTube from "./icons/IconYouTube.vue";
+import IconGitHub from "./icons/IconGitHub.vue";
+import IconCopy from "./icons/IconCopy.vue";
+import IconBase from "./IconBase.vue";
+
+import { required, helpers } from "vuelidate/lib/validators";
+
+/* eslint-disable */
+const customURL = helpers.regex(
+  "customURL",
+  /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
+);
+
+/* eslint-enable */
+
+export default {
+  name: "LinkShare",
+  components: {
+    IconBase,
+    IconTwitter,
+    IconLinkedIn,
+    IconReddit,
+    IconFacebook,
+    IconStackOverflow,
+    IconHackerNews,
+    IconMedium,
+    IconDevTo,
+    IconYouTube,
+    IconGitHub,
+    IconCopy,
+    IconMicrosoft
+  },
+  data() {
+    return {
+      copied: "",
+      tactic: "",
+      category: "",
+      urlToShare: "",
+      longLink: "",
+      shortLink: "",
+      shortenerProvider: "",
+      shortApiKey: "",
+      shortUsername: "",
+      alias: "",
+      showConfigurationError: false
+    };
+  },
+  validations: {
+    urlToShare: {
+      required,
+      customURL
+    },
+    tactic: {
+      required
+    },
+    category: {
+      required
+    }
+  },
+  mounted() {},
+  methods: {
+    async reloadSettings() {
+      await Promise.all([
+        this.getAlias(),
+        this.getShortUsername(),
+        this.getShortApiKey(),
+        this.getShortenerProvider()
+      ]);
+    },
+    handleSuccess() {
+      this.$toasted.show("Copied to clipboard", {
+        theme: "outline",
+        position: "top-center",
+        duration: 2000
+      });
+    },
+    /* eslint-disable */
+    getAlias() {
+      return storage.getters
+        .alias()
+        .then(result => (this.alias = result))
+        .catch(err => console.error(err));
+    },
+    getShortUsername() {
+      return storage.getters
+        .shortUsername()
+        .then(result => (this.shortUsername = result))
+        .catch(err => console.error(err));
+    },
+    getShortApiKey() {
+      return storage.getters
+        .shortApiKey()
+        .then(result => (this.shortApiKey = result))
+        .catch(err => console.error(err));
+    },
+    getShortenerProvider() {
+      return storage.getters
+        .shortenerProvider()
+        .then(result => (this.shortenerProvider = result));
+    },
+    /* eslint-enable */
+    async create() {
+      await this.reloadSettings();
+
+      if (!this.alias || !this.shortenerProvider) {
+        this.showConfigurationError = true;
+        return;
+      } else {
+        this.showConfigurationError = false;
+      }
+      this.longLink = tracking.addTracking(
+        this.urlToShare,
+        this.tactic,
+        this.category,
+        this.alias
+      );
+
+      const short = { apiKey: this.shortApiKey, username: this.shortUsername };
+
+      if (this.shortenerProvider && this.shortenerProvider === "bit.ly") {
+        service.bitly.shorten(this.longLink, short).then(response => {
+          this.shortLink = response;
+        });
+      }
+      if (this.shortenerProvider && this.shortenerProvider === "cda.ms") {
+        service.cda.shorten(this.longLink).then(response => {
+          this.shortLink = response;
+        });
+      }
+    },
+    addTracking(tactic, category) {
+      let ai = this.$appInsights;
+      this.reloadSettings().then(() => {
+        this.shortLink = "";
+        this.longLink = tracking.addTracking(
+          this.urlToShare,
+          tactic,
+          category,
+          this.alias
+        );
+        ai.trackEvent({
+          name: "addTracking",
+          properties: {
+            tactic,
+            category,
+            alias: this.alias,
+            url: this.urlToShare
+          }
+        });
+      });
+    },
+    twitter() {
+      this.addTracking("social", "twitter");
+    },
+    linkedin() {
+      this.addTracking("social", "linkedin");
+    },
+    reddit() {
+      this.addTracking("social", "reddit");
+    },
+    facebook() {
+      this.addTracking("social", "facebook");
+    },
+    stackoverflow() {
+      this.addTracking("social", "stackoverflow");
+    },
+    hackernews() {
+      this.addTracking("social", "hackernews");
+    },
+    azuremedium() {
+      this.addTracking("azuremedium", "blog");
+    },
+    medium() {
+      this.addTracking("medium", "blog");
+    },
+    youtube() {
+      this.addTracking(this.tactic, "youtube");
+    },
+    github() {
+      this.addTracking(this.tactic, "github");
+    },
+    devto() {
+      this.addTracking("devto", "blog");
+    },
+    microsoft() {
+      this.addTracking("itopstalk", "blog");
+    }
+  },
+  created() {
+    this.getAlias();
+  }
+};
+</script>
+
 <template>
   <div class="wrapper">
     <v-card class="link-card" v-if="longLink">
@@ -37,20 +248,30 @@
     <h1>Share a Microsoft.com Link</h1>
     <v-card class="card">
       <v-card-title>
-        <h3 class="grey--text">Tracking link format follows: tactic-category-alias</h3>
+        <h3 class="grey--text">
+          Tracking link format follows: tactic-category-alias
+        </h3>
       </v-card-title>
       <v-flex md6 offset-md3>
         <v-alert type="warning" v-show="!alias">
-          Beware, you have not yet set your Microsoft alias, needed to build this link. Go to
-          <router-link to="/settings">Settings</router-link>&nbsp;to set your alias.
+          Beware, you have not yet set your Microsoft alias, needed to build
+          this link. Go to
+          <router-link to="/settings">Settings</router-link>&nbsp;to set your
+          alias.
         </v-alert>
       </v-flex>
       <v-form>
         <v-container>
           <v-flex md6 offset-md3>
-            <v-alert outlined :value="true" type="error" v-show="showConfigurationError">
+            <v-alert
+              outlined
+              :value="true"
+              type="error"
+              v-show="showConfigurationError"
+            >
               Shortener Configuration Missing. Please go to
-              <router-link to="/settings">Settings</router-link>&nbsp;to configure the missing settings
+              <router-link to="/settings">Settings</router-link>&nbsp;to
+              configure the missing settings
             </v-alert>
           </v-flex>
           <v-layout row wrap>
@@ -58,7 +279,10 @@
               <v-text-field
                 name="urlToShare"
                 @blur="$v.urlToShare.$touch()"
-                :class="{ 'is-invalid': $v.urlToShare.$invalid && $v.urlToShare.$dirty, 'is-valid': !$v.urlToShare.$invalid }"
+                :class="{
+                  'is-invalid': $v.urlToShare.$invalid && $v.urlToShare.$dirty,
+                  'is-valid': !$v.urlToShare.$invalid
+                }"
                 aria-describedby="urlToShare-describe"
                 v-model="urlToShare"
                 label="Url"
@@ -67,30 +291,42 @@
             </v-flex>
             <v-flex xs5>
               <v-text-field
-                id="event-code"
-                name="event-code"
-                @blur="$v.event.$touch()"
-                :class="{ 'is-invalid': $v.event.$invalid && $v.event.$dirty, 'is-valid': !$v.event.$invalid }"
-                aria-describedby="event-code-describe"
-                v-model="event"
+                id="tactic-code"
+                name="tactic-code"
+                @blur="$v.tactic.$touch()"
+                :class="{
+                  'is-invalid': $v.tactic.$invalid && $v.tactic.$dirty,
+                  'is-valid': !$v.tactic.$invalid
+                }"
+                aria-describedby="tactic-code-describe"
+                v-model="tactic"
                 label="Tactic"
-                prepend-icon="event"
+                prepend-icon="tactic"
               ></v-text-field>
             </v-flex>
             <v-flex xs5>
               <v-text-field
-                id="channel-code"
-                name="channel-code"
-                @blur="$v.channel.$touch()"
-                :class="{ 'is-invalid': $v.channel.$invalid && $v.channel.$dirty, 'is-valid': !$v.channel.$invalid }"
-                aria-describedby="channel-code-describe"
-                v-model="channel"
+                id="category-code"
+                name="category-code"
+                @blur="$v.category.$touch()"
+                :class="{
+                  'is-invalid': $v.category.$invalid && $v.category.$dirty,
+                  'is-valid': !$v.category.$invalid
+                }"
+                aria-describedby="category-code-describe"
+                v-model="category"
                 label="Category"
                 prepend-icon="input"
               ></v-text-field>
             </v-flex>
             <v-flex md2>
-              <v-btn :disabled="$v.$invalid" v-on:click="create" large color="primary">Create Link</v-btn>
+              <v-btn
+                :disabled="$v.$invalid"
+                v-on:click="create"
+                large
+                color="primary"
+                >Create Link</v-btn
+              >
             </v-flex>
           </v-layout>
         </v-container>
@@ -105,9 +341,9 @@
               <div>
                 <div class="headline">Social Presets</div>
                 <span>
-                  Channel is set to
-                  <b>social</b> for the associated platform.
-                  i.e. ?WT.mc_id=tactic-social-myalias
+                  category is set to
+                  <b>social</b> for the associated platform. i.e.
+                  ?WT.mc_id=tactic-social-myalias
                 </span>
               </div>
             </v-card-title>
@@ -165,9 +401,9 @@
               <div>
                 <div class="headline">Blog Presets</div>
                 <span>
-                  Channel is set to
-                  <b>blog</b> for the associated platform.
-                  i.e. ?WT.mc_id=azuremedium-blog-myalias
+                  category is set to
+                  <b>blog</b> for the associated platform. i.e.
+                  ?WT.mc_id=azuremedium-blog-myalias
                 </span>
               </div>
             </v-card-title>
@@ -216,8 +452,8 @@
               <div>
                 <div class="headline">Other Presets</div>
                 <span>
-                  Various quick links to set channel. Uses the value from
-                  <b>event</b>.
+                  Various quick links to set category. Uses the value from
+                  <b>tactic</b>.
                 </span>
               </div>
             </v-card-title>
@@ -247,217 +483,6 @@
   </div>
 </template>
 
-<script>
-/* eslint-disable no-console */
-import storage from "../modules/storage";
-import service from "../modules/services";
-import tracking from "../modules/tracking";
-
-import IconMicrosoft from "./icons/IconMicrosoft.vue";
-
-import IconTwitter from "./icons/IconTwitter.vue";
-import IconLinkedIn from "./icons/IconLinkedIn.vue";
-import IconReddit from "./icons/IconReddit.vue";
-import IconFacebook from "./icons/IconFacebook.vue";
-import IconStackOverflow from "./icons/IconStackOverflow.vue";
-import IconHackerNews from "./icons/IconHackerNews.vue";
-import IconMedium from "./icons/IconMedium.vue";
-import IconDevTo from "./icons/IconDevTo.vue";
-import IconYouTube from "./icons/IconYouTube.vue";
-import IconGitHub from "./icons/IconGitHub.vue";
-import IconCopy from "./icons/IconCopy.vue";
-import IconBase from "./IconBase.vue";
-
-import { required, helpers } from "vuelidate/lib/validators";
-
-/* eslint-disable */
-const customURL = helpers.regex(
-  "customURL",
-  /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
-);
-
-/* eslint-enable */
-
-export default {
-  name: "LinkShare",
-  components: {
-    IconBase,
-    IconTwitter,
-    IconLinkedIn,
-    IconReddit,
-    IconFacebook,
-    IconStackOverflow,
-    IconHackerNews,
-    IconMedium,
-    IconDevTo,
-    IconYouTube,
-    IconGitHub,
-    IconCopy,
-    IconMicrosoft
-  },
-  data() {
-    return {
-      copied: "",
-      event: "",
-      channel: "",
-      urlToShare: "",
-      longLink: "",
-      shortLink: "",
-      shortenerProvider: "",
-      shortApiKey: "",
-      shortUsername: "",
-      alias: "",
-      showConfigurationError: false
-    };
-  },
-  validations: {
-    urlToShare: {
-      required,
-      customURL
-    },
-    event: {
-      required
-    },
-    channel: {
-      required
-    }
-  },
-  mounted() {},
-  methods: {
-    async reloadSettings() {
-      await Promise.all([
-        this.getAlias(),
-        this.getShortUsername(),
-        this.getShortApiKey(),
-        this.getShortenerProvider()
-      ]);
-    },
-    handleSuccess() {
-      this.$toasted.show("Copied to clipboard", {
-        theme: "outline",
-        position: "top-center",
-        duration: 2000
-      });
-    },
-    /* eslint-disable */
-    getAlias() {
-      return storage.getters
-        .alias()
-        .then(result => (this.alias = result))
-        .catch(err => console.log(err));
-    },
-    getShortUsername() {
-      return storage.getters
-        .shortUsername()
-        .then(result => (this.shortUsername = result))
-        .catch(err => console.log(err));
-    },
-    getShortApiKey() {
-      return storage.getters
-        .shortApiKey()
-        .then(result => (this.shortApiKey = result))
-        .catch(err => console.log(err));
-    },
-    getShortenerProvider() {
-      return storage.getters
-        .shortenerProvider()
-        .then(result => (this.shortenerProvider = result));
-    },
-    /* eslint-enable */
-    async create() {
-      await this.reloadSettings();
-
-      if (!this.alias || !this.shortenerProvider) {
-        this.showConfigurationError = true;
-        return;
-      } else {
-        this.showConfigurationError = false;
-      }
-      this.longLink = tracking.addTracking(
-        this.urlToShare,
-        this.event,
-        this.channel,
-        this.alias
-      );
-
-      const short = { apiKey: this.shortApiKey, username: this.shortUsername };
-
-      if (this.shortenerProvider && this.shortenerProvider === "bit.ly") {
-        service.bitly.shorten(this.longLink, short).then(response => {
-          this.shortLink = response;
-        });
-      }
-      if (this.shortenerProvider && this.shortenerProvider === "cda.ms") {
-        service.cda.shorten(this.longLink).then(response => {
-          this.shortLink = response;
-        });
-      }
-    },
-    addTracking(event, channel) {
-      let ai = this.$appInsights;
-      this.reloadSettings().then(() => {
-        this.shortLink = "";
-        this.longLink = tracking.addTracking(
-          this.urlToShare,
-          event,
-          channel,
-          this.alias
-        );
-        ai.trackEvent({
-          name: "addTracking",
-          properties: {
-            event: event,
-            channel: channel,
-            alias: this.alias,
-            url: this.urlToShare
-          }
-        });
-      });
-    },
-    twitter() {
-      this.addTracking("social", "twitter");
-    },
-    linkedin() {
-      this.addTracking("social", "linkedin");
-    },
-    reddit() {
-      this.addTracking("social", "reddit");
-    },
-    facebook() {
-      this.addTracking("social", "facebook");
-    },
-    stackoverflow() {
-      this.addTracking("social", "stackoverflow");
-    },
-    hackernews() {
-      this.addTracking("social", "hackernews");
-    },
-    azuremedium() {
-      this.addTracking("azuremedium", "blog");
-    },
-    medium() {
-      this.addTracking("medium", "blog");
-    },
-    youtube() {
-      this.addTracking(this.event, "youtube");
-    },
-    github() {
-      this.addTracking(this.event, "github");
-    },
-    devto() {
-      this.addTracking("devto", "blog");
-    },
-    microsoft() {
-      this.addTracking("itopstalk", "blog");
-    }
-  },
-  created() {
-    this.getAlias();
-  }
-};
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .link-card {
   margin: 5px;
