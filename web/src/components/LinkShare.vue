@@ -149,6 +149,8 @@ export default {
       let ai = this.$appInsights;
       this.reloadSettings().then(() => {
         this.shortLink = "";
+        this.tactic = tactic;
+        this.category = category;
         this.longLink = tracking.addTracking(
           this.urlToShare,
           tactic,
