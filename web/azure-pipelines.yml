@@ -16,18 +16,11 @@ variables:
 
 steps:
 
-- task: CmdLine@2
-  inputs:
-    script: |
-      echo Write your commands here
-      
-      echo Hello world
-    workingDirectory: './web'
-
 - task: Bash@3
   inputs:
     targetType: 'inline'
     script: 'docker build -f Dockerfile -t $(imageName) .'
+    workingDirectory: './web'
 
 - task: Bash@3 
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
