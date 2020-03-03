@@ -1,0 +1,70 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "MaximRouiller",
+      "name": "Maxime Rouiller",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/209384?v=4",
+      "profile": "https://blog.maximerouiller.com",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "cecilphillip",
+      "name": "Cecil Phillip",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/350882?v=4",
+      "profile": "http://cecilphillip.com",
+      "contributions": [
+        "maintenance"
+      ]
+    },
+    {
+      "login": "btholt",
+      "name": "Brian Holt",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/999523?v=4",
+      "profile": "http://brianholt.dev",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "johnpapa",
+      "name": "John Papa",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1202528?v=4",
+      "profile": "http://johnpapa.net",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jlooper",
+      "name": "Jen Looper",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1450004?v=4",
+      "profile": "http://www.jenlooper.com",
+      "contributions": [
+        "design",
+        "code"
+      ]
+    },
+    {
+      "login": "scuffy",
+      "name": "Sonia Cuff",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/41356020?v=4",
+      "profile": "http://www.microsoft.com",
+      "contributions": [
+        "ideas"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "social-linker",
+  "projectOwner": "spboyer",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
