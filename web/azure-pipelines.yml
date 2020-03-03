@@ -5,7 +5,6 @@
 
 trigger:
 - master
-- greenkeeper/* 
 
 pool:
   vmImage: 'Ubuntu-16.04'
