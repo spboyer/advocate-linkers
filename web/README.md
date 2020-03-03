@@ -3,7 +3,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors)
 
 
-[![Build Status](https://dev.azure.com/shayneboyer/social-linker/_apis/build/status/spboyer.social-linker?branchName=master)](https://dev.azure.com/shayneboyer/social-linker/_build/latest?definitionId=2&branchName=master) [![Greenkeeper badge](https://badges.greenkeeper.io/spboyer/social-linker.svg)](https://greenkeeper.io/)
+[![Build Status](https://dev.azure.com/shayneboyer/social-linker/_apis/build/status/spboyer.advocate-linkers?branchName=master)](https://dev.azure.com/shayneboyer/social-linker/_build/latest?definitionId=12&branchName=master)
 
 This tool is just a simple VueJS application to add `/?WT.mc_id=tactic-category-alias` path to Microsoft based links.
 
