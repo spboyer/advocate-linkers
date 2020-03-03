@@ -19,7 +19,7 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: 'docker build -f Dockerfile -t $(imageName) .'
+    script: 'docker build -f ./web/Dockerfile -t $(imageName) .'
 
 - task: Bash@3 
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
