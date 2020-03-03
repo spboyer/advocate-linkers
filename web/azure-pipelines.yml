@@ -16,9 +16,11 @@ variables:
 
 steps:
 
-- script: # script path or inline
-  workingDirectory: web
-  displayName: Change to web directory
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'cd web'
+
 
 - task: Bash@3
   inputs:
