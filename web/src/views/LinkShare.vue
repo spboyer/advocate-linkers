@@ -5,19 +5,19 @@ import { required, helpers } from 'vuelidate/lib/validators';
 
 import { storage, services, tracking } from '../modules';
 
-import IconBase from './icons/IconBase';
-import IconTwitter from './icons/IconTwitter';
-import IconLinkedIn from './icons/IconLinkedIn';
-import IconReddit from './icons/IconReddit';
-import IconFacebook from './icons/IconFacebook';
-import IconStackOverflow from './icons/IconStackOverflow';
-import IconHackerNews from './icons/IconHackerNews';
-import IconMedium from './icons/IconMedium';
-import IconMicrosoft from './icons/IconMicrosoft';
-import IconDevTo from './icons/IconDevTo';
-import IconYouTube from './icons/IconYouTube';
-import IconGitHub from './icons/IconGitHub';
-import LinkCard from './LinkCard';
+import IconBase from '@/components/icons/IconBase';
+import IconDevTo from '@/components/icons/IconDevTo';
+import IconFacebook from '@/components/icons/IconFacebook';
+import IconGitHub from '@/components/icons/IconGitHub';
+import IconHackerNews from '@/components/icons/IconHackerNews';
+import IconLinkedIn from '@/components/icons/IconLinkedIn';
+import IconMedium from '@/components/icons/IconMedium';
+import IconMicrosoft from '@/components/icons/IconMicrosoft';
+import IconReddit from '@/components/icons/IconReddit';
+import IconStackOverflow from '@/components/icons/IconStackOverflow';
+import IconTwitter from '@/components/icons/IconTwitter';
+import IconYouTube from '@/components/icons/IconYouTube';
+import LinkCard from '@/components/LinkCard';
 
 /* eslint-disable */
 const customURL = helpers.regex(
