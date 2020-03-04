@@ -306,11 +306,12 @@ export default {
             <v-card-title primary-title>
               <div>
                 <div class="headline">Social Presets</div>
-                <span>
-                  category is set to
-                  <b>social</b> for the associated platform. i.e.
+                <div class="preset-text">
+                  category is set to <b>social</b> for the associated platform.
+                </div>
+                <div class="preset-example">
                   ?WT.mc_id=tactic-social-myalias
-                </span>
+                </div>
               </div>
             </v-card-title>
             <v-container fluid grid-list-sm>
@@ -366,16 +367,18 @@ export default {
             <v-card-title primary-title>
               <div>
                 <div class="headline">Blog Presets</div>
-                <span>
+                <div class="preset-text">
                   category is set to
-                  <b>blog</b> for the associated platform. i.e.
+                  <b>blog</b> for the associated platform.
+                </div>
+                <div class="preset-example">
                   ?WT.mc_id=azuremedium-blog-myalias
-                </span>
+                </div>
               </div>
             </v-card-title>
             <v-container fluid grid-list-sm>
               <v-layout row wrap>
-                <v-flex md4>
+                <v-flex xs6>
                   <v-btn large class="btn-icon" href="#" @click="azuremedium">
                     <span style="color:#326699">
                       <icon-base icon-name="azuremedium">
@@ -384,7 +387,7 @@ export default {
                     </span>
                   </v-btn>
                 </v-flex>
-                <v-flex md4>
+                <v-flex xs6>
                   <v-btn class="btn-icon" large href="#" @click="medium">
                     <span style="color:#000">
                       <icon-base icon-name="medium">
@@ -393,7 +396,7 @@ export default {
                     </span>
                   </v-btn>
                 </v-flex>
-                <v-flex md4>
+                <v-flex xs6>
                   <v-btn class="btn-icon" large href="#" @click="devto">
                     <icon-base icon-name="devto">
                       <icon-dev-to @click="devto" />
@@ -401,7 +404,7 @@ export default {
                   </v-btn>
                 </v-flex>
 
-                <v-flex md4>
+                <v-flex xs6>
                   <v-btn class="btn-icon" large href="#" @click="microsoft">
                     <icon-base icon-name="ITOpsTalk">
                       <icon-microsoft @click="microsoft" />
@@ -417,10 +420,10 @@ export default {
             <v-card-title primary-title>
               <div>
                 <div class="headline">Other Presets</div>
-                <span>
+                <div class="preset-text">
                   Various quick links to set category. Uses the value from
                   <b>tactic</b>.
-                </span>
+                </div>
               </div>
             </v-card-title>
 
@@ -459,5 +462,12 @@ export default {
 }
 .icon {
   margin: 10px;
+}
+.preset-text {
+  word-break: break-word;
+}
+.preset-example {
+  font-size: 14px;
+  color: #1776d2;
 }
 </style>
