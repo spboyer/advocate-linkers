@@ -1,37 +1,34 @@
 <script>
 /* eslint-disable no-console */
 
-import storage from "../modules/storage";
-import service from "../modules/services";
-import tracking from "../modules/tracking";
+import { required, helpers } from 'vuelidate/lib/validators';
 
-import IconMicrosoft from "./icons/IconMicrosoft.vue";
+import { storage, services, tracking } from '../modules';
 
-import IconTwitter from "./icons/IconTwitter.vue";
-import IconLinkedIn from "./icons/IconLinkedIn.vue";
-import IconReddit from "./icons/IconReddit.vue";
-import IconFacebook from "./icons/IconFacebook.vue";
-import IconStackOverflow from "./icons/IconStackOverflow.vue";
-import IconHackerNews from "./icons/IconHackerNews.vue";
-import IconMedium from "./icons/IconMedium.vue";
-import IconDevTo from "./icons/IconDevTo.vue";
-import IconYouTube from "./icons/IconYouTube.vue";
-import IconGitHub from "./icons/IconGitHub.vue";
-import IconCopy from "./icons/IconCopy.vue";
-import IconBase from "./IconBase.vue";
-
-import { required, helpers } from "vuelidate/lib/validators";
+import IconBase from '@/components/icons/IconBase';
+import IconDevTo from '@/components/icons/IconDevTo';
+import IconFacebook from '@/components/icons/IconFacebook';
+import IconGitHub from '@/components/icons/IconGitHub';
+import IconHackerNews from '@/components/icons/IconHackerNews';
+import IconLinkedIn from '@/components/icons/IconLinkedIn';
+import IconMedium from '@/components/icons/IconMedium';
+import IconMicrosoft from '@/components/icons/IconMicrosoft';
+import IconReddit from '@/components/icons/IconReddit';
+import IconStackOverflow from '@/components/icons/IconStackOverflow';
+import IconTwitter from '@/components/icons/IconTwitter';
+import IconYouTube from '@/components/icons/IconYouTube';
+import LinkCard from '@/components/LinkCard';
 
 /* eslint-disable */
 const customURL = helpers.regex(
-  "customURL",
+  'customURL',
   /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
 );
 
 /* eslint-enable */
 
 export default {
-  name: "LinkShare",
+  name: 'LinkShare',
   components: {
     IconBase,
     IconTwitter,
@@ -44,51 +41,53 @@ export default {
     IconDevTo,
     IconYouTube,
     IconGitHub,
-    IconCopy,
-    IconMicrosoft
+    IconMicrosoft,
+    LinkCard,
   },
   data() {
     return {
-      copied: "",
-      tactic: "",
-      category: "",
-      urlToShare: "",
-      longLink: "",
-      shortLink: "",
-      shortenerProvider: "",
-      shortApiKey: "",
-      shortUsername: "",
-      alias: "",
-      showConfigurationError: false
+      copied: '',
+      tactic: '',
+      category: '',
+      urlToShare: '',
+      longLink: '',
+      shortLink: '',
+      shortenerProvider: '',
+      shortApiKey: '',
+      shortUsername: '',
+      alias: '',
+      showConfigurationError: false,
     };
   },
   validations: {
     urlToShare: {
       required,
-      customURL
+      customURL,
     },
     tactic: {
-      required
+      required,
     },
     category: {
-      required
-    }
+      required,
+    },
   },
-  mounted() {},
+  created() {
+    this.getAlias();
+  },
   methods: {
     async reloadSettings() {
       await Promise.all([
         this.getAlias(),
         this.getShortUsername(),
         this.getShortApiKey(),
-        this.getShortenerProvider()
+        this.getShortenerProvider(),
       ]);
     },
-    handleSuccess() {
-      this.$toasted.show("Copied to clipboard", {
-        theme: "outline",
-        position: "top-center",
-        duration: 2000
+    copySuccess() {
+      this.$toasted.show('Copied to clipboard', {
+        theme: 'outline',
+        position: 'top-center',
+        duration: 2000,
       });
     },
     /* eslint-disable */
@@ -134,13 +133,13 @@ export default {
 
       const short = { apiKey: this.shortApiKey, username: this.shortUsername };
 
-      if (this.shortenerProvider && this.shortenerProvider === "bit.ly") {
-        service.bitly.shorten(this.longLink, short).then(response => {
+      if (this.shortenerProvider && this.shortenerProvider === 'bit.ly') {
+        services.bitly.shorten(this.longLink, short).then(response => {
           this.shortLink = response;
         });
       }
-      if (this.shortenerProvider && this.shortenerProvider === "cda.ms") {
-        service.cda.shorten(this.longLink).then(response => {
+      if (this.shortenerProvider && this.shortenerProvider === 'cda.ms') {
+        services.cda.shorten(this.longLink).then(response => {
           this.shortLink = response;
         });
       }
@@ -148,7 +147,7 @@ export default {
     addTracking(tactic, category) {
       let ai = this.$appInsights;
       this.reloadSettings().then(() => {
-        this.shortLink = "";
+        this.shortLink = '';
         this.tactic = tactic;
         this.category = category;
         this.longLink = tracking.addTracking(
@@ -158,95 +157,58 @@ export default {
           this.alias
         );
         ai.trackEvent({
-          name: "addTracking",
+          name: 'addTracking',
           properties: {
             tactic,
             category,
             alias: this.alias,
-            url: this.urlToShare
-          }
+            url: this.urlToShare,
+          },
         });
       });
     },
     twitter() {
-      this.addTracking("social", "twitter");
+      this.addTracking('twitter', 'social');
     },
     linkedin() {
-      this.addTracking("social", "linkedin");
+      this.addTracking('linkedin', 'social');
     },
     reddit() {
-      this.addTracking("social", "reddit");
+      this.addTracking('reddit', 'social');
     },
     facebook() {
-      this.addTracking("social", "facebook");
+      this.addTracking('facebook', 'social');
     },
     stackoverflow() {
-      this.addTracking("social", "stackoverflow");
+      this.addTracking('stackoverflow', 'social');
     },
     hackernews() {
-      this.addTracking("social", "hackernews");
+      this.addTracking('hackernews', 'social');
     },
     azuremedium() {
-      this.addTracking("azuremedium", "blog");
+      this.addTracking('azuremedium', 'blog');
     },
     medium() {
-      this.addTracking("medium", "blog");
+      this.addTracking('medium', 'blog');
     },
     youtube() {
-      this.addTracking(this.tactic, "youtube");
+      this.addTracking(this.tactic, 'youtube');
     },
     github() {
-      this.addTracking(this.tactic, "github");
+      this.addTracking(this.tactic, 'github');
     },
     devto() {
-      this.addTracking("devto", "blog");
+      this.addTracking('devto', 'blog');
     },
     microsoft() {
-      this.addTracking("itopstalk", "blog");
-    }
+      this.addTracking('itopstalk', 'blog');
+    },
   },
-  created() {
-    this.getAlias();
-  }
 };
 </script>
 
 <template>
   <div class="wrapper">
-    <v-card class="link-card" v-if="longLink">
-      <v-flex green lighten-4>
-        <v-card-title primary-title>
-          <h1 class="headline">Link Created!</h1>
-        </v-card-title>
-        <v-layout flex row>
-          <v-card-actions>
-            <v-btn
-              text
-              v-clipboard:copy="longLink"
-              v-if="longLink"
-              v-clipboard:success="handleSuccess"
-            >
-              <icon-base icon-name="copy" width="30px" height="30px">
-                <icon-copy />
-              </icon-base>
-              {{ longLink }}
-            </v-btn>
-
-            <v-btn
-              text
-              v-clipboard:copy="shortLink"
-              v-if="shortLink"
-              v-clipboard:success="handleSuccess"
-            >
-              <icon-base icon-name="copy" width="30px" height="30px">
-                <icon-copy />
-              </icon-base>
-              {{ shortLink }}
-            </v-btn>
-          </v-card-actions>
-        </v-layout>
-      </v-flex>
-    </v-card>
     <h1>Share a Microsoft.com Link</h1>
     <v-card class="card">
       <v-card-title>
@@ -283,7 +245,7 @@ export default {
                 @blur="$v.urlToShare.$touch()"
                 :class="{
                   'is-invalid': $v.urlToShare.$invalid && $v.urlToShare.$dirty,
-                  'is-valid': !$v.urlToShare.$invalid
+                  'is-valid': !$v.urlToShare.$invalid,
                 }"
                 aria-describedby="urlToShare-describe"
                 v-model="urlToShare"
@@ -298,7 +260,7 @@ export default {
                 @blur="$v.tactic.$touch()"
                 :class="{
                   'is-invalid': $v.tactic.$invalid && $v.tactic.$dirty,
-                  'is-valid': !$v.tactic.$invalid
+                  'is-valid': !$v.tactic.$invalid,
                 }"
                 aria-describedby="tactic-code-describe"
                 v-model="tactic"
@@ -313,7 +275,7 @@ export default {
                 @blur="$v.category.$touch()"
                 :class="{
                   'is-invalid': $v.category.$invalid && $v.category.$dirty,
-                  'is-valid': !$v.category.$invalid
+                  'is-valid': !$v.category.$invalid,
                 }"
                 aria-describedby="category-code-describe"
                 v-model="category"
@@ -335,6 +297,8 @@ export default {
       </v-form>
     </v-card>
 
+    <LinkCard :longLink="longLink" :shortLink="shortLink" @copy="copySuccess" />
+
     <v-container>
       <v-layout row wrap>
         <v-flex md4>
@@ -342,11 +306,12 @@ export default {
             <v-card-title primary-title>
               <div>
                 <div class="headline">Social Presets</div>
-                <span>
-                  category is set to
-                  <b>social</b> for the associated platform. i.e.
-                  ?WT.mc_id=tactic-social-myalias
-                </span>
+                <div class="preset-text">
+                  category is set to <b>social</b> for the associated platform.
+                </div>
+                <div class="preset-example">
+                  i.e. tactic-social-myalias
+                </div>
               </div>
             </v-card-title>
             <v-container fluid grid-list-sm>
@@ -402,16 +367,18 @@ export default {
             <v-card-title primary-title>
               <div>
                 <div class="headline">Blog Presets</div>
-                <span>
+                <div class="preset-text">
                   category is set to
-                  <b>blog</b> for the associated platform. i.e.
-                  ?WT.mc_id=azuremedium-blog-myalias
-                </span>
+                  <b>blog</b> for the associated platform.
+                </div>
+                <div class="preset-example">
+                  i.e. azuremedium-blog-myalias
+                </div>
               </div>
             </v-card-title>
             <v-container fluid grid-list-sm>
               <v-layout row wrap>
-                <v-flex md4>
+                <v-flex xs6>
                   <v-btn large class="btn-icon" href="#" @click="azuremedium">
                     <span style="color:#326699">
                       <icon-base icon-name="azuremedium">
@@ -420,7 +387,7 @@ export default {
                     </span>
                   </v-btn>
                 </v-flex>
-                <v-flex md4>
+                <v-flex xs6>
                   <v-btn class="btn-icon" large href="#" @click="medium">
                     <span style="color:#000">
                       <icon-base icon-name="medium">
@@ -429,7 +396,7 @@ export default {
                     </span>
                   </v-btn>
                 </v-flex>
-                <v-flex md4>
+                <v-flex xs6>
                   <v-btn class="btn-icon" large href="#" @click="devto">
                     <icon-base icon-name="devto">
                       <icon-dev-to @click="devto" />
@@ -437,7 +404,7 @@ export default {
                   </v-btn>
                 </v-flex>
 
-                <v-flex md4>
+                <v-flex xs6>
                   <v-btn class="btn-icon" large href="#" @click="microsoft">
                     <icon-base icon-name="ITOpsTalk">
                       <icon-microsoft @click="microsoft" />
@@ -453,10 +420,10 @@ export default {
             <v-card-title primary-title>
               <div>
                 <div class="headline">Other Presets</div>
-                <span>
+                <div class="preset-text">
                   Various quick links to set category. Uses the value from
                   <b>tactic</b>.
-                </span>
+                </div>
               </div>
             </v-card-title>
 
@@ -495,5 +462,15 @@ export default {
 }
 .icon {
   margin: 10px;
+}
+.preset-text {
+  font-size: 14px;
+  word-break: break-word;
+  line-height: 20px;
+}
+.preset-example {
+  font-size: 14px;
+  color: #1776d2;
+  line-height: 20px;
 }
 </style>

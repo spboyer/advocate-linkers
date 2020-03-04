@@ -9,8 +9,8 @@ const bitly = {
           format: 'json',
           apiKey: shortner.apiKey,
           login: shortner.username,
-          longUrl: url
-        }
+          longUrl: url,
+        },
       })
       .then(response => {
         if (response.status == 200) {
@@ -28,7 +28,7 @@ const bitly = {
       .catch(error => {
         console.log('Error! ' + error);
       });
-  }
+  },
 };
 
 const cda = {
@@ -39,8 +39,8 @@ const cda = {
       data: JSON.stringify({ url: url }),
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
       .then(response => {
         if (response.status == 200) {
@@ -56,12 +56,10 @@ const cda = {
       .catch(error => {
         console.log('Error! ' + error);
       });
-  }
+  },
 };
 
-const services = {
+export const services = {
   bitly,
-  cda
+  cda,
 };
-
-export { services as default };

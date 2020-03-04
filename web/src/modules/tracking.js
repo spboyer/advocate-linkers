@@ -1,21 +1,21 @@
 /* eslint-disable no-console */
 
-const tracking = {
+export const tracking = {
   addTracking: (url, tactic, category, alias) => {
-    let baseUrl = url || "";
-    if (baseUrl === "") return;
+    let baseUrl = url || '';
+    if (baseUrl === '') return;
 
     const defaultDomains = [
       /(.*\.)?microsoft\.com$/,
       /(.*\.)?msdn\.com$/,
       /(.*\.)?visualstudio\.com$/,
-      "www.microsoftevents.com"
+      'www.microsoftevents.com',
     ];
 
     const config = {
       tactic,
       category,
-      alias
+      alias,
     };
     let domains = config.domains;
     if (domains || Array.isArray(domains)) {
@@ -26,7 +26,7 @@ const tracking = {
     config.domains = domains;
     let shouldAddTrackingInfo = false;
     if (baseUrl) {
-      var re = new RegExp("^(http|https)://", "i");
+      let re = new RegExp('^(http|https)://', 'i');
       if (!re.test(baseUrl)) {
         baseUrl = `https://${baseUrl}`;
       }
@@ -43,7 +43,7 @@ const tracking = {
       if (shouldAddTrackingInfo) {
         //remove locale
         const localeRegex = /^\/\w{2}-\w{2}/g;
-        uri.pathname = uri.pathname.replace(localeRegex, "");
+        uri.pathname = uri.pathname.replace(localeRegex, '');
 
         baseUrl = uri.toString();
       }
@@ -52,22 +52,20 @@ const tracking = {
       return appendTrackingInfo(config, baseUrl);
     }
     return baseUrl;
-  }
+  },
 };
 
 function appendTrackingInfo(config, link) {
   const tracking =
-    "WT.mc_id=" + config.tactic + "-" + config.category + "-" + config.alias;
+    'WT.mc_id=' + config.tactic + '-' + config.category + '-' + config.alias;
   //respect or ignore currect query string
-  const separator = link.indexOf("?") > 0 ? "&" : "?";
+  const separator = link.indexOf('?') > 0 ? '&' : '?';
   //respect or ignore hash
-  let hash = "";
-  const hasHash = link.indexOf("#");
+  let hash = '';
+  const hasHash = link.indexOf('#');
   if (hasHash != -1) {
     hash = link.substr(hasHash);
-    link = link.replace(hash, "");
+    link = link.replace(hash, '');
   }
   return link + separator + tracking + hash;
 }
-
-export { tracking as default };
