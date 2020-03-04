@@ -1,0 +1,11 @@
+{
+  "name": "CxALinker",
+  "version": "1.0.0",
+  "description": "Constructs links to conform to the WebTrends tracking standard",
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "/icons/icon16.png"
+  },
+  "manifest_version": 2,
+  "permissions": ["activeTab", "storage", "clipboardWrite"]
+}
