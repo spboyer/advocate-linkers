@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "mobile"
+		},
+		{
+			"path": "web"
+		},
+		{
+			"path": "extension"
+		}
+	],
+	"settings": {
+		"workbench.colorCustomizations": {
+			"titleBar.activeBackground": "#194558",
+			"titleBar.inactiveBackground": "#19455899",
+			"titleBar.activeForeground": "#e7e7e7",
+			"titleBar.inactiveForeground": "#e7e7e799"
+		},
+		"peacock.color": "#194558"
+	}
+}
