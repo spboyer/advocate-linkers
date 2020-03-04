@@ -1,3 +1,66 @@
+<script>
+/* eslint-disable no-console */
+import storage from "../modules/storage";
+
+export default {
+  name: "settings",
+  data() {
+    return {
+      alias: "",
+      shortenerProvider: "",
+      shortApiKey: "",
+      shortUsername: "",
+      urldropdown: ["none", "bit.ly", "cda.ms"]
+    };
+  },
+  mounted() {
+    this.getAlias();
+    this.getShortUsername(), this.getShortApiKey(), this.getShortenerProvider();
+  },
+  methods: {
+    getAlias() {
+      return storage.getters
+        .alias()
+        .then(result => (this.alias = result))
+        .catch(err => console.log(err));
+    },
+    getShortUsername() {
+      return storage.getters
+        .shortUsername()
+        .then(result => (this.shortUsername = result))
+        .catch(err => console.log(err));
+    },
+    getShortApiKey() {
+      return storage.getters
+        .shortApiKey()
+        .then(result => (this.shortApiKey = result))
+        .catch(err => console.log(err));
+    },
+    getShortenerProvider() {
+      return storage.getters
+        .shortenerProvider()
+        .then(result => (this.shortenerProvider = result));
+    },
+    hideConfig(option) {
+      return option === this.shortenerProvider;
+    },
+    setAlias() {
+      storage.actions.saveAlias(this.alias);
+    },
+    setShortenerProvider() {
+      storage.actions.saveShortProvider(this.shortenerProvider);
+      console.log(this.shortenerProvider);
+    },
+    setShortApiKey() {
+      storage.actions.saveShortApiKey(this.shortApiKey);
+    },
+    setShortUsername() {
+      storage.actions.saveShortUsername(this.shortUsername);
+    }
+  }
+};
+</script>
+
 <template>
   <div class="wrapper">
     <h1>My Settings</h1>
@@ -6,7 +69,9 @@
         <h3 class="grey--text">Your Microsoft alias</h3>
       </v-card-title>
       <v-flex md6 offset-md3>
-        <v-alert outlined :value="true" type="success" v-show="alias">Alias successfully set!</v-alert>
+        <v-alert outlined :value="true" type="success" v-show="alias"
+          >Alias successfully set!</v-alert
+        >
       </v-flex>
       <v-form>
         <v-container>
@@ -73,66 +138,3 @@
     </v-card>
   </div>
 </template>
-
-<script>
-/* eslint-disable no-console */
-import storage from "../modules/storage";
-
-export default {
-  name: "settings",
-  data() {
-    return {
-      alias: "",
-      shortenerProvider: "",
-      shortApiKey: "",
-      shortUsername: "",
-      urldropdown: ["none", "bit.ly", "cda.ms"]
-    };
-  },
-  mounted() {
-    this.getAlias();
-    this.getShortUsername(), this.getShortApiKey(), this.getShortenerProvider();
-  },
-  methods: {
-    getAlias() {
-      return storage.getters
-        .alias()
-        .then(result => (this.alias = result))
-        .catch(err => console.log(err));
-    },
-    getShortUsername() {
-      return storage.getters
-        .shortUsername()
-        .then(result => (this.shortUsername = result))
-        .catch(err => console.log(err));
-    },
-    getShortApiKey() {
-      return storage.getters
-        .shortApiKey()
-        .then(result => (this.shortApiKey = result))
-        .catch(err => console.log(err));
-    },
-    getShortenerProvider() {
-      return storage.getters
-        .shortenerProvider()
-        .then(result => (this.shortenerProvider = result));
-    },
-    hideConfig(option) {
-      return option === this.shortenerProvider;
-    },
-    setAlias() {
-      storage.actions.saveAlias(this.alias);
-    },
-    setShortenerProvider() {
-      storage.actions.saveShortProvider(this.shortenerProvider);
-      console.log(this.shortenerProvider);
-    },
-    setShortApiKey() {
-      storage.actions.saveShortApiKey(this.shortApiKey);
-    },
-    setShortUsername() {
-      storage.actions.saveShortUsername(this.shortUsername);
-    }
-  }
-};
-</script>
