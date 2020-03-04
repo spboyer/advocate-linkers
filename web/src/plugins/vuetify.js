@@ -3,7 +3,7 @@ import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 
 Vue.use(Vuetify, {
-  iconfont: 'md',
+  iconfont: 'md'
 });
 
 export default new Vuetify();

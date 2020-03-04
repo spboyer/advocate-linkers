@@ -16,14 +16,14 @@ import VueAppInsights from 'vue-application-insights';
 const appInsights = new ApplicationInsights({
   config: {
     instrumentationKey: 'd8d11b38-ae34-4d38-b5cd-dab76f992722',
-    maxBatchInterval: 2000,
-  },
+    maxBatchInterval: 2000
+  }
 });
 appInsights.loadAppInsights();
 
 Vue.use(VueAppInsights, {
   appInsights: appInsights,
-  router,
+  router
 });
 
 Vue.use(VueClipboard);
@@ -35,5 +35,5 @@ Vue.config.productionTip = false;
 new Vue({
   vuetify,
   router,
-  render: h => h(App),
+  render: h => h(App)
 }).$mount('#app');

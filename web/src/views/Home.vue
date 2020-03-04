@@ -1,8 +1,8 @@
 <script>
 // @ is an alias to /src
-import LinkShare from "@/components/LinkShare.vue";
+import LinkShare from '@/components/LinkShare.vue';
 export default {
-  name: "home",
+  name: 'home',
   components: {
     LinkShare
   }

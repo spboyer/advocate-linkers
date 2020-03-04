@@ -1,16 +1,16 @@
 <script>
 /* eslint-disable no-console */
-import storage from "../modules/storage";
+import storage from '../modules/storage';
 
 export default {
-  name: "settings",
+  name: 'settings',
   data() {
     return {
-      alias: "",
-      shortenerProvider: "",
-      shortApiKey: "",
-      shortUsername: "",
-      urldropdown: ["none", "bit.ly", "cda.ms"]
+      alias: '',
+      shortenerProvider: '',
+      shortApiKey: '',
+      shortUsername: '',
+      urldropdown: ['none', 'bit.ly', 'cda.ms']
     };
   },
   mounted() {

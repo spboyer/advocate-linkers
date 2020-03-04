@@ -1,37 +1,37 @@
 <script>
 /* eslint-disable no-console */
 
-import storage from "../modules/storage";
-import service from "../modules/services";
-import tracking from "../modules/tracking";
+import storage from '../modules/storage';
+import service from '../modules/services';
+import tracking from '../modules/tracking';
 
-import IconMicrosoft from "./icons/IconMicrosoft.vue";
+import IconMicrosoft from './icons/IconMicrosoft.vue';
 
-import IconTwitter from "./icons/IconTwitter.vue";
-import IconLinkedIn from "./icons/IconLinkedIn.vue";
-import IconReddit from "./icons/IconReddit.vue";
-import IconFacebook from "./icons/IconFacebook.vue";
-import IconStackOverflow from "./icons/IconStackOverflow.vue";
-import IconHackerNews from "./icons/IconHackerNews.vue";
-import IconMedium from "./icons/IconMedium.vue";
-import IconDevTo from "./icons/IconDevTo.vue";
-import IconYouTube from "./icons/IconYouTube.vue";
-import IconGitHub from "./icons/IconGitHub.vue";
-import IconCopy from "./icons/IconCopy.vue";
-import IconBase from "./IconBase.vue";
+import IconTwitter from './icons/IconTwitter.vue';
+import IconLinkedIn from './icons/IconLinkedIn.vue';
+import IconReddit from './icons/IconReddit.vue';
+import IconFacebook from './icons/IconFacebook.vue';
+import IconStackOverflow from './icons/IconStackOverflow.vue';
+import IconHackerNews from './icons/IconHackerNews.vue';
+import IconMedium from './icons/IconMedium.vue';
+import IconDevTo from './icons/IconDevTo.vue';
+import IconYouTube from './icons/IconYouTube.vue';
+import IconGitHub from './icons/IconGitHub.vue';
+import IconCopy from './icons/IconCopy.vue';
+import IconBase from './IconBase.vue';
 
-import { required, helpers } from "vuelidate/lib/validators";
+import { required, helpers } from 'vuelidate/lib/validators';
 
 /* eslint-disable */
 const customURL = helpers.regex(
-  "customURL",
+  'customURL',
   /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
 );
 
 /* eslint-enable */
 
 export default {
-  name: "LinkShare",
+  name: 'LinkShare',
   components: {
     IconBase,
     IconTwitter,
@@ -49,16 +49,16 @@ export default {
   },
   data() {
     return {
-      copied: "",
-      tactic: "",
-      category: "",
-      urlToShare: "",
-      longLink: "",
-      shortLink: "",
-      shortenerProvider: "",
-      shortApiKey: "",
-      shortUsername: "",
-      alias: "",
+      copied: '',
+      tactic: '',
+      category: '',
+      urlToShare: '',
+      longLink: '',
+      shortLink: '',
+      shortenerProvider: '',
+      shortApiKey: '',
+      shortUsername: '',
+      alias: '',
       showConfigurationError: false
     };
   },
@@ -85,9 +85,9 @@ export default {
       ]);
     },
     handleSuccess() {
-      this.$toasted.show("Copied to clipboard", {
-        theme: "outline",
-        position: "top-center",
+      this.$toasted.show('Copied to clipboard', {
+        theme: 'outline',
+        position: 'top-center',
         duration: 2000
       });
     },
@@ -134,12 +134,12 @@ export default {
 
       const short = { apiKey: this.shortApiKey, username: this.shortUsername };
 
-      if (this.shortenerProvider && this.shortenerProvider === "bit.ly") {
+      if (this.shortenerProvider && this.shortenerProvider === 'bit.ly') {
         service.bitly.shorten(this.longLink, short).then(response => {
           this.shortLink = response;
         });
       }
-      if (this.shortenerProvider && this.shortenerProvider === "cda.ms") {
+      if (this.shortenerProvider && this.shortenerProvider === 'cda.ms') {
         service.cda.shorten(this.longLink).then(response => {
           this.shortLink = response;
         });
@@ -148,7 +148,7 @@ export default {
     addTracking(tactic, category) {
       let ai = this.$appInsights;
       this.reloadSettings().then(() => {
-        this.shortLink = "";
+        this.shortLink = '';
         this.tactic = tactic;
         this.category = category;
         this.longLink = tracking.addTracking(
@@ -158,7 +158,7 @@ export default {
           this.alias
         );
         ai.trackEvent({
-          name: "addTracking",
+          name: 'addTracking',
           properties: {
             tactic,
             category,
@@ -169,40 +169,40 @@ export default {
       });
     },
     twitter() {
-      this.addTracking("social", "twitter");
+      this.addTracking('social', 'twitter');
     },
     linkedin() {
-      this.addTracking("social", "linkedin");
+      this.addTracking('social', 'linkedin');
     },
     reddit() {
-      this.addTracking("social", "reddit");
+      this.addTracking('social', 'reddit');
     },
     facebook() {
-      this.addTracking("social", "facebook");
+      this.addTracking('social', 'facebook');
     },
     stackoverflow() {
-      this.addTracking("social", "stackoverflow");
+      this.addTracking('social', 'stackoverflow');
     },
     hackernews() {
-      this.addTracking("social", "hackernews");
+      this.addTracking('social', 'hackernews');
     },
     azuremedium() {
-      this.addTracking("azuremedium", "blog");
+      this.addTracking('azuremedium', 'blog');
     },
     medium() {
-      this.addTracking("medium", "blog");
+      this.addTracking('medium', 'blog');
     },
     youtube() {
-      this.addTracking(this.tactic, "youtube");
+      this.addTracking(this.tactic, 'youtube');
     },
     github() {
-      this.addTracking(this.tactic, "github");
+      this.addTracking(this.tactic, 'github');
     },
     devto() {
-      this.addTracking("devto", "blog");
+      this.addTracking('devto', 'blog');
     },
     microsoft() {
-      this.addTracking("itopstalk", "blog");
+      this.addTracking('itopstalk', 'blog');
     }
   },
   created() {
