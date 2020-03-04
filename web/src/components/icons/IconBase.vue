@@ -4,21 +4,21 @@ export default {
   props: {
     iconName: {
       type: String,
-      default: 'box'
+      default: 'box',
     },
     width: {
       type: [Number, String],
-      default: 50
+      default: 50,
     },
     height: {
       type: [Number, String],
-      default: 50
+      default: 50,
     },
     iconColor: {
       type: String,
-      default: 'currentColor'
-    }
-  }
+      default: 'currentColor',
+    },
+  },
 };
 </script>
 

@@ -10,7 +10,7 @@ export default {
       shortenerProvider: '',
       shortApiKey: '',
       shortUsername: '',
-      urldropdown: ['none', 'bit.ly', 'cda.ms']
+      urldropdown: ['none', 'bit.ly', 'cda.ms'],
     };
   },
   mounted() {
@@ -56,8 +56,8 @@ export default {
     },
     setShortUsername() {
       storage.actions.saveShortUsername(this.shortUsername);
-    }
-  }
+    },
+  },
 };
 </script>
 

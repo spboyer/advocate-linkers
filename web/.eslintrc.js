@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
   extends: ['plugin:vue/essential', '@vue/prettier'],
   plugins: ['prettier'],
@@ -14,17 +14,17 @@ module.exports = {
       {
         trailingComma: 'es5',
         singleQuote: true,
-        printWidth: 80
-      }
+        printWidth: 80,
+      },
     ],
     'vue/no-unused-components': [
       'error',
       {
-        ignoreWhenBindingPresent: true
-      }
-    ]
+        ignoreWhenBindingPresent: true,
+      },
+    ],
   },
   parserOptions: {
-    parser: 'babel-eslint'
-  }
+    parser: 'babel-eslint',
+  },
 };

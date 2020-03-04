@@ -40,22 +40,22 @@ export default {
   props: {
     longLink: {
       type: String,
-      default: ''
+      default: '',
     },
     shortLink: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   components: {
     IconBase,
-    IconCopy
+    IconCopy,
   },
   methods: {
     copy() {
       this.$emit('copy');
-    }
-  }
+    },
+  },
 };
 </script>
 

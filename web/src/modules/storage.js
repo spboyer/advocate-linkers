@@ -3,7 +3,7 @@ import localforage from 'localforage';
 
 localforage.config({
   driver: localforage.LOCALSTORAGE,
-  name: 'cxa-social-linker'
+  name: 'cxa-social-linker',
 });
 
 const saveToStorage = function(key, data) {
@@ -30,7 +30,7 @@ const getters = {
   shortenerProvider: () => getFromStorage('shortenerProvider'),
   shortApiKey: () => getFromStorage('shortApiKey'),
   shortUsername: () => getFromStorage('shortUsername'),
-  shortVanity: () => getFromStorage('shortVanity')
+  shortVanity: () => getFromStorage('shortVanity'),
 };
 
 const actions = {
@@ -38,10 +38,10 @@ const actions = {
   saveShortProvider: data => saveToStorage('shortenerProvider', data),
   saveShortApiKey: data => saveToStorage('shortApiKey', data),
   saveShortUsername: data => saveToStorage('shortUsername', data),
-  saveShortVanity: data => saveToStorage('shortVanity', data)
+  saveShortVanity: data => saveToStorage('shortVanity', data),
 };
 
 export const storage = {
   getters,
-  actions
+  actions,
 };

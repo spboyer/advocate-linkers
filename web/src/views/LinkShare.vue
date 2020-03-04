@@ -42,7 +42,7 @@ export default {
     IconYouTube,
     IconGitHub,
     IconMicrosoft,
-    LinkCard
+    LinkCard,
   },
   data() {
     return {
@@ -56,20 +56,20 @@ export default {
       shortApiKey: '',
       shortUsername: '',
       alias: '',
-      showConfigurationError: false
+      showConfigurationError: false,
     };
   },
   validations: {
     urlToShare: {
       required,
-      customURL
+      customURL,
     },
     tactic: {
-      required
+      required,
     },
     category: {
-      required
-    }
+      required,
+    },
   },
   created() {
     this.getAlias();
@@ -80,14 +80,14 @@ export default {
         this.getAlias(),
         this.getShortUsername(),
         this.getShortApiKey(),
-        this.getShortenerProvider()
+        this.getShortenerProvider(),
       ]);
     },
     copySuccess() {
       this.$toasted.show('Copied to clipboard', {
         theme: 'outline',
         position: 'top-center',
-        duration: 2000
+        duration: 2000,
       });
     },
     /* eslint-disable */
@@ -162,8 +162,8 @@ export default {
             tactic,
             category,
             alias: this.alias,
-            url: this.urlToShare
-          }
+            url: this.urlToShare,
+          },
         });
       });
     },
@@ -202,8 +202,8 @@ export default {
     },
     microsoft() {
       this.addTracking('itopstalk', 'blog');
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -245,7 +245,7 @@ export default {
                 @blur="$v.urlToShare.$touch()"
                 :class="{
                   'is-invalid': $v.urlToShare.$invalid && $v.urlToShare.$dirty,
-                  'is-valid': !$v.urlToShare.$invalid
+                  'is-valid': !$v.urlToShare.$invalid,
                 }"
                 aria-describedby="urlToShare-describe"
                 v-model="urlToShare"
@@ -260,7 +260,7 @@ export default {
                 @blur="$v.tactic.$touch()"
                 :class="{
                   'is-invalid': $v.tactic.$invalid && $v.tactic.$dirty,
-                  'is-valid': !$v.tactic.$invalid
+                  'is-valid': !$v.tactic.$invalid,
                 }"
                 aria-describedby="tactic-code-describe"
                 v-model="tactic"
@@ -275,7 +275,7 @@ export default {
                 @blur="$v.category.$touch()"
                 :class="{
                   'is-invalid': $v.category.$invalid && $v.category.$dirty,
-                  'is-valid': !$v.category.$invalid
+                  'is-valid': !$v.category.$invalid,
                 }"
                 aria-describedby="category-code-describe"
                 v-model="category"

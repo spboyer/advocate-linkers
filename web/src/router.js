@@ -9,19 +9,19 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: LinkShare
+      component: LinkShare,
     },
     {
       path: '/settings',
       name: 'settings',
       component: () =>
-        import(/* webpackChunkName: "settings" */ './views/Settings.vue')
+        import(/* webpackChunkName: "settings" */ './views/Settings.vue'),
     },
     {
       path: '/credits',
       name: 'credits',
       component: () =>
-        import(/* webpackChunkName: "settings" */ './views/Credits.vue')
-    }
-  ]
+        import(/* webpackChunkName: "settings" */ './views/Credits.vue'),
+    },
+  ],
 });

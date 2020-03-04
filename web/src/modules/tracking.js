@@ -9,13 +9,13 @@ export const tracking = {
       /(.*\.)?microsoft\.com$/,
       /(.*\.)?msdn\.com$/,
       /(.*\.)?visualstudio\.com$/,
-      'www.microsoftevents.com'
+      'www.microsoftevents.com',
     ];
 
     const config = {
       tactic,
       category,
-      alias
+      alias,
     };
     let domains = config.domains;
     if (domains || Array.isArray(domains)) {
@@ -52,7 +52,7 @@ export const tracking = {
       return appendTrackingInfo(config, baseUrl);
     }
     return baseUrl;
-  }
+  },
 };
 
 function appendTrackingInfo(config, link) {
