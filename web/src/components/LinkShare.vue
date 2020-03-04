@@ -6,7 +6,6 @@ import { required, helpers } from 'vuelidate/lib/validators';
 import { storage, services, tracking } from '../modules';
 
 import IconBase from './icons/IconBase';
-import IconCopy from './icons/IconCopy';
 import IconTwitter from './icons/IconTwitter';
 import IconLinkedIn from './icons/IconLinkedIn';
 import IconReddit from './icons/IconReddit';
@@ -18,6 +17,7 @@ import IconMicrosoft from './icons/IconMicrosoft';
 import IconDevTo from './icons/IconDevTo';
 import IconYouTube from './icons/IconYouTube';
 import IconGitHub from './icons/IconGitHub';
+import LinkCard from './LinkCard';
 
 /* eslint-disable */
 const customURL = helpers.regex(
@@ -41,8 +41,8 @@ export default {
     IconDevTo,
     IconYouTube,
     IconGitHub,
-    IconCopy,
-    IconMicrosoft
+    IconMicrosoft,
+    LinkCard
   },
   data() {
     return {
@@ -83,7 +83,7 @@ export default {
         this.getShortenerProvider()
       ]);
     },
-    handleSuccess() {
+    copySuccess() {
       this.$toasted.show('Copied to clipboard', {
         theme: 'outline',
         position: 'top-center',
@@ -209,40 +209,6 @@ export default {
 
 <template>
   <div class="wrapper">
-    <v-card class="link-card" v-if="longLink">
-      <v-flex green lighten-4>
-        <v-card-title primary-title>
-          <h1 class="headline">Link Created!</h1>
-        </v-card-title>
-        <v-layout flex row>
-          <v-card-actions>
-            <v-btn
-              text
-              v-clipboard:copy="longLink"
-              v-if="longLink"
-              v-clipboard:success="handleSuccess"
-            >
-              <icon-base icon-name="copy" width="30px" height="30px">
-                <icon-copy />
-              </icon-base>
-              {{ longLink }}
-            </v-btn>
-
-            <v-btn
-              text
-              v-clipboard:copy="shortLink"
-              v-if="shortLink"
-              v-clipboard:success="handleSuccess"
-            >
-              <icon-base icon-name="copy" width="30px" height="30px">
-                <icon-copy />
-              </icon-base>
-              {{ shortLink }}
-            </v-btn>
-          </v-card-actions>
-        </v-layout>
-      </v-flex>
-    </v-card>
     <h1>Share a Microsoft.com Link</h1>
     <v-card class="card">
       <v-card-title>
@@ -330,6 +296,8 @@ export default {
         </v-container>
       </v-form>
     </v-card>
+
+    <LinkCard :longLink="longLink" :shortLink="shortLink" @copy="copySuccess" />
 
     <v-container>
       <v-layout row wrap>
