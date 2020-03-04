@@ -1,11 +1,9 @@
 <script>
 /* eslint-disable no-console */
 
-import storage from '../modules/storage';
-import service from '../modules/services';
-import tracking from '../modules/tracking';
+import { required, helpers } from 'vuelidate/lib/validators';
 
-import IconMicrosoft from './icons/IconMicrosoft.vue';
+import { storage, services, tracking } from '../modules';
 
 import IconTwitter from './icons/IconTwitter.vue';
 import IconLinkedIn from './icons/IconLinkedIn.vue';
@@ -137,12 +135,12 @@ export default {
       const short = { apiKey: this.shortApiKey, username: this.shortUsername };
 
       if (this.shortenerProvider && this.shortenerProvider === 'bit.ly') {
-        service.bitly.shorten(this.longLink, short).then(response => {
+        services.bitly.shorten(this.longLink, short).then(response => {
           this.shortLink = response;
         });
       }
       if (this.shortenerProvider && this.shortenerProvider === 'cda.ms') {
-        service.cda.shorten(this.longLink).then(response => {
+        services.cda.shorten(this.longLink).then(response => {
           this.shortLink = response;
         });
       }

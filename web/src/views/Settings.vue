@@ -1,6 +1,6 @@
 <script>
 /* eslint-disable no-console */
-import storage from '../modules/storage';
+import { storage } from '../modules';
 
 export default {
   name: 'settings',

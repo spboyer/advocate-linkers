@@ -41,9 +41,7 @@ const actions = {
   saveShortVanity: data => saveToStorage('shortVanity', data)
 };
 
-const storage = {
+export const storage = {
   getters,
   actions
 };
-
-export { storage as default };

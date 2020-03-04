@@ -59,9 +59,7 @@ const cda = {
   }
 };
 
-const services = {
+export const services = {
   bitly,
   cda
 };
-
-export { services as default };

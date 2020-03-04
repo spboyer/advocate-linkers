@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-const tracking = {
+export const tracking = {
   addTracking: (url, tactic, category, alias) => {
     let baseUrl = url || '';
     if (baseUrl === '') return;
@@ -69,5 +69,3 @@ function appendTrackingInfo(config, link) {
   }
   return link + separator + tracking + hash;
 }
-
-export { tracking as default };
