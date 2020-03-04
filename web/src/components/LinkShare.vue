@@ -74,7 +74,9 @@ export default {
       required
     }
   },
-  mounted() {},
+  created() {
+    this.getAlias();
+  },
   methods: {
     async reloadSettings() {
       await Promise.all([
@@ -169,22 +171,22 @@ export default {
       });
     },
     twitter() {
-      this.addTracking('social', 'twitter');
+      this.addTracking('twitter', 'social');
     },
     linkedin() {
-      this.addTracking('social', 'linkedin');
+      this.addTracking('linkedin', 'social');
     },
     reddit() {
-      this.addTracking('social', 'reddit');
+      this.addTracking('reddit', 'social');
     },
     facebook() {
-      this.addTracking('social', 'facebook');
+      this.addTracking('facebook', 'social');
     },
     stackoverflow() {
-      this.addTracking('social', 'stackoverflow');
+      this.addTracking('stackoverflow', 'social');
     },
     hackernews() {
-      this.addTracking('social', 'hackernews');
+      this.addTracking('hackernews', 'social');
     },
     azuremedium() {
       this.addTracking('azuremedium', 'blog');
@@ -204,9 +206,6 @@ export default {
     microsoft() {
       this.addTracking('itopstalk', 'blog');
     }
-  },
-  created() {
-    this.getAlias();
   }
 };
 </script>
