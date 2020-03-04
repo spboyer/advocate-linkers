@@ -42,7 +42,7 @@
           >CC 3.0 BY</a
         >
       </div>
-      <a target="_blank" href="https://github.com/spboyer/social-linker"
+      <a target="_blank" href="https://github.com/spboyer/advocate-linkers"
         >This project can be found on GitHub</a
       >
     </v-card>
