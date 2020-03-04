@@ -310,7 +310,7 @@ export default {
                   category is set to <b>social</b> for the associated platform.
                 </div>
                 <div class="preset-example">
-                  ?WT.mc_id=tactic-social-myalias
+                  i.e. tactic-social-myalias
                 </div>
               </div>
             </v-card-title>
@@ -372,7 +372,7 @@ export default {
                   <b>blog</b> for the associated platform.
                 </div>
                 <div class="preset-example">
-                  ?WT.mc_id=azuremedium-blog-myalias
+                  i.e. azuremedium-blog-myalias
                 </div>
               </div>
             </v-card-title>
@@ -464,10 +464,13 @@ export default {
   margin: 10px;
 }
 .preset-text {
+  font-size: 14px;
   word-break: break-word;
+  line-height: 20px;
 }
 .preset-example {
   font-size: 14px;
   color: #1776d2;
+  line-height: 20px;
 }
 </style>
