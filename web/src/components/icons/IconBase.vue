@@ -1,19 +1,3 @@
-<template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    :width="width"
-    :height="height"
-    viewBox="0 0 50 50"
-    :aria-labelledby="iconName"
-    role="presentation"
-  >
-    <title :id="iconName" lang="en">{{ iconName }} icon</title>
-    <g :fill="iconColor">
-      <slot></slot>
-    </g>
-  </svg>
-</template>
-
 <script>
 //from Sarah's cool icons sample https://github.com/sdras/vue-sample-svg-icons
 export default {
@@ -37,6 +21,22 @@ export default {
   }
 };
 </script>
+
+<template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    :width="width"
+    :height="height"
+    viewBox="0 0 50 50"
+    :aria-labelledby="iconName"
+    role="presentation"
+  >
+    <title :id="iconName" lang="en">{{ iconName }} icon</title>
+    <g :fill="iconColor">
+      <slot></slot>
+    </g>
+  </svg>
+</template>
 
 <style scoped>
 svg {

@@ -5,20 +5,19 @@ import { required, helpers } from 'vuelidate/lib/validators';
 
 import { storage, services, tracking } from '../modules';
 
-import IconTwitter from './icons/IconTwitter.vue';
-import IconLinkedIn from './icons/IconLinkedIn.vue';
-import IconReddit from './icons/IconReddit.vue';
-import IconFacebook from './icons/IconFacebook.vue';
-import IconStackOverflow from './icons/IconStackOverflow.vue';
-import IconHackerNews from './icons/IconHackerNews.vue';
-import IconMedium from './icons/IconMedium.vue';
-import IconDevTo from './icons/IconDevTo.vue';
-import IconYouTube from './icons/IconYouTube.vue';
-import IconGitHub from './icons/IconGitHub.vue';
-import IconCopy from './icons/IconCopy.vue';
-import IconBase from './IconBase.vue';
-
-import { required, helpers } from 'vuelidate/lib/validators';
+import IconBase from './icons/IconBase';
+import IconCopy from './icons/IconCopy';
+import IconTwitter from './icons/IconTwitter';
+import IconLinkedIn from './icons/IconLinkedIn';
+import IconReddit from './icons/IconReddit';
+import IconFacebook from './icons/IconFacebook';
+import IconStackOverflow from './icons/IconStackOverflow';
+import IconHackerNews from './icons/IconHackerNews';
+import IconMedium from './icons/IconMedium';
+import IconMicrosoft from './icons/IconMicrosoft';
+import IconDevTo from './icons/IconDevTo';
+import IconYouTube from './icons/IconYouTube';
+import IconGitHub from './icons/IconGitHub';
 
 /* eslint-disable */
 const customURL = helpers.regex(
