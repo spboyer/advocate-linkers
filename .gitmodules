@@ -1,0 +1,3 @@
+[submodule "cli/cxa-track"]
+	path = cli/cxa-track
+	url = https://github.com/sinedied/cxa-track.git
