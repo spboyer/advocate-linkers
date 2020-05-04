@@ -2,10 +2,15 @@
 (function() {
     function cdaTracker(config) {
       var defaultDomains = [
-        /(.*\.)?microsoft\.com$/,
-        /(.*\.)?msdn\.com$/,
-        /(.*\.)?visualstudio\.com$/,
-        "www.microsoftevents.com"
+        /(.*\.)?azure\.microsoft\.com$/,
+        /(.*\.)?blogs\.msdn\.microsoft.com$/,
+        /(.*\.)?channel9\.msdn\.com$/,
+        /(.*\.)?code\.visualstudio\.com$/,
+        /(.*\.)?cloudblogs\.microsoft\.com$/,
+        /(.*\.)?devblogs\.microsoft\.com$/,
+        /(.*\.)?docs\.microsoft\.com$/,
+        /(.*\.)?marketplace\.visualstudio\.com$/,
+        /(.*\.)?techcommunity\.microsoft\.com$/
       ];
     
       var domains = config.domains;
