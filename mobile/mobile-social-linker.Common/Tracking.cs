@@ -18,6 +18,20 @@ namespace mobile_social_linker.Common
 
         public static string AppendTrackingInfo(string link, string eventName, string channel, string alias)
         {
+            var makeLink = false;
+            foreach(var r in DefaultDomainsRegex)
+            {
+                if (r.IsMatch(link))
+                {
+                    makeLink = true;
+                }
+            }
+
+            if (makeLink == false)
+            {
+                return link;
+            }
+            
             UriBuilder builder = new UriBuilder(link);
 
             builder = builder.AddTrackingCode(eventName, channel, alias);
