@@ -1,84 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="CxALinkerApp">
-  <head>
-    <meta charset="UTF-8" />
-    <title></title>
-    <script src="js/angular.min.js"></script>
-    <script src="js/app.js"></script>
-    <link rel="stylesheet" href="bulma.min.css" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body data-ng-controller="PopupController">
-    <div class="card-content">
-      <div>
-        <div class="field">
-          <div class="control">
-            <label for="url-to-shorten" class="label">Enter URL</label>
-          </div>
-        </div>
-        <div class="field">
-          <div class="control is-expanded">
-            <input
-              id="originalUrl"
-              class="input"
-              type="text"
-              ng-model="originalUrl"
-            />
-          </div>
-        </div>
-        <div class="field is-grouped is-grouped-right">
-          <h2 class="control status has-text-info">
-            {{ status }}
-          </h2>
-          <p class="control">
-            <button class="button is-info" ng-click="trackUrl()">
-              Track
-            </button>
-          </p>
-          <p class="control">
-            <button class="button is-info" ng-click="shortenUrl()">
-              Shorten
-            </button>
-          </p>
-        </div>
+<html lang="en" data-ng-app="WTify">
+<head>
+  <meta charset="UTF-8" />
+  <title></title>
+  <script src="angular.min.js"></script>
+  <script src="app.js"></script>
+  <link rel="stylesheet" href="bulma.min.css" />
+  <link rel="stylesheet" href="fontawesome/css/fontawesome.css">
+  <link rel="stylesheet" href="fontawesome/css/brands.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-ng-controller="PopupController">
+  <div class="card-content">
+    <div class="field">
+      <div class="control">
+        <label for="url-to-shorten" class="label">Enter URL</label>
       </div>
-      <hr />
+    </div>
+    <div class="field">
+      <div class="control is-expanded">
+        <input id="originalUrl" class="input" type="text" ng-model="originalUrl" />
+      </div>
+    </div>
+    <div class="field is-grouped is-grouped-right">
+      <h2 class="control status has-text-info">
+        {{ status }}
+      </h2>
+      <p class="control">
+        <button class="button is-info" ng-click="trackUrl()">
+          Track
+        </button>
+      </p>
+      <p class="control">
+        <button class="button is-info" ng-click="shortenUrl()">
+          Shorten
+        </button>
+      </p>
+    </div>
+    <section>
       <div>
         <label for="" class="label">URL Configuration</label>
         <div class="field">
           <div class="control">
-            <label class="label">Event</label>
-            <input
-              ng-model="config.values.event"
-              class="input card-footer-item"
-              type="text"
-              ng-blur="saveConfiguration()"
-            />
+            <label class="label">Area Path</label>
+            <select class="select" ng-model="config.values.areaPath">
+              <option ng-repeat="areaPath in areaPaths">{{areaPath}}</option>
+            </select>
+            <!-- <input ng-model="config.values.areaPath" class="input card-footer-item" type="text"
+              ng-blur="saveConfiguration()" /> -->
           </div>
         </div>
         <div class="field">
           <div class="control">
-            <label class="label">Channel</label>
-            <input
-              ng-model="config.values.channel"
-              class="input card-footer-item"
-              type="text"
-              ng-blur="saveConfiguration()"
-            />
+            <label class="label">ADO Id</label>
+            <input placeholder="0000" ngTrim ng-model="config.values.ADOid" class="input card-footer-item" type="text"
+              ng-blur="saveConfiguration('ADOid', 0000)" />
           </div>
         </div>
         <div class="field">
           <div class="control">
             <label class="label">Alias</label>
-            <input
-              ng-model="config.values.alias"
-              class="input card-footer-item"
-              type="text"
-              ng-blur="saveConfiguration()"
-            />
+            <input ng-model="config.values.alias" class="input card-footer-item" type="text"
+              ng-blur="saveConfiguration()" />
           </div>
         </div>
       </div>
-    </div>
-  </body>
+    </section>
+  </div>
+</body>
 </html>

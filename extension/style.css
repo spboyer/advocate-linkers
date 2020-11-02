@@ -1,7 +1,21 @@
 body {
   width: 400px;
+  font-family: 
 }
 
 .status {
   padding-top: 5px;
+}
+
+#tabs-with-content .tabs:not(:last-child) {
+  margin-bottom: 0;
+}
+
+#tabs-with-content .tab-content {
+  padding: 1rem;
+  display: none;
+}
+
+#tabs-with-content .tab-content.is-active {
+  display: block;
 }
