@@ -10,6 +10,8 @@ A Chrome Extension that allows for the simple creation and shortening of links t
 
 3. Select "Load Unpacked"
 
+4. Select the folder that you cloned to
+
 ## Use
 
 On any page that you want to link to with tracking, open the extension.

@@ -1,39 +1,44 @@
-let CxALinkerApp = angular.module("CxALinkerApp", []);
+let WTifyApp = angular.module("WTify", []);
 
-CxALinkerApp.controller("PopupController", function(
+WTifyApp.controller("PopupController", function (
   $scope,
-  $timeout,
+  AreaPathService,
   ChromeFunctions,
   LinkService
 ) {
-  $scope.originalUrl = "https://www.google.com";
+  ($scope.areaPaths = []), ($scope.originalUrl = "https://www.google.com");
   $scope.config = {
-    props: ["event", "channel", "alias"]
+    props: ["areaPath", "ADOid", "alias"]
   };
 
-  /* These two functions are called when the extension is opened */
+  /* These three functions are called when the extension is opened */
 
-  // 1. Gets the last stored alias, event and channel from local storage
-  ChromeFunctions.getConfiguration($scope.config.props).then(result => {
+  // 1. Gets the last stored alias, areapath and adoid from local storage
+  ChromeFunctions.getConfiguration($scope.config.props).then((result) => {
     $scope.config.values = result;
   });
 
-  // 2. Prefills the input with the URL of the current page
-  ChromeFunctions.getCurrentUrl().then(result => {
+  // 2. Gets the list of available areapaths from https://github.com/spboyer/advocate-linkers
+  AreaPathService.get().then((data) => {
+    $scope.areaPaths = data;
+  });
+
+  // 3. Prefills the input with the URL of the current page
+  ChromeFunctions.getCurrentUrl().then((result) => {
     $scope.originalUrl = result;
   });
 
   /* */
 
-  $scope.saveConfiguration = function() {
+  $scope.saveConfiguration = function () {
     chrome.storage.sync.set($scope.config.values);
   };
 
-  $scope.shortenUrl = function() {
+  $scope.shortenUrl = function () {
     $scope.status = "Shortening...";
     const trackedUrl = LinkService.track(this.originalUrl, this.config);
     LinkService.shorten(trackedUrl)
-      .then(result => {
+      .then((result) => {
         ChromeFunctions.copyToClipboard(result);
         window.close();
       })
@@ -42,14 +47,29 @@ CxALinkerApp.controller("PopupController", function(
       });
   };
 
-  $scope.trackUrl = function() {
+  $scope.trackUrl = function () {
     const trackedUrl = LinkService.track(this.originalUrl, this.config);
     ChromeFunctions.copyToClipboard(trackedUrl);
     window.close();
   };
 });
 
-CxALinkerApp.service("LinkService", function($q, $http) {
+WTifyApp.service("AreaPathService", function ($q, $http) {
+  return {
+    get() {
+      const URL =
+        "https://raw.githubusercontent.com/spboyer/advocate-linkers/master/area-paths.json";
+      const defer = $q.defer();
+      $http.get(URL).then((result) => {
+        defer.resolve(result.data);
+      });
+
+      return defer.promise;
+    }
+  };
+});
+
+WTifyApp.service("LinkService", function ($q, $http) {
   const API_URL = "https://cda.ms/save";
   const WEBTRENDS = "WT.mc_id=";
 
@@ -68,6 +88,8 @@ CxALinkerApp.service("LinkService", function($q, $http) {
         ((fragment = url.substr(hashIndex)), (url = url.replace(fragment, "")));
 
       let wtUrl = `${url}${separator}${WEBTRENDS}`;
+
+      config.values.ADOid = config.values.ADOid || "0000";
 
       // add in the tracking details
       config.props.forEach((prop, index) => {
@@ -90,7 +112,7 @@ CxALinkerApp.service("LinkService", function($q, $http) {
           Accept: "application/json",
           "Content-Type": "application/json"
         }
-      }).then(result => {
+      }).then((result) => {
         defer.resolve(result.data.url);
       });
 
@@ -99,11 +121,11 @@ CxALinkerApp.service("LinkService", function($q, $http) {
   };
 });
 
-CxALinkerApp.factory("ChromeFunctions", function($q) {
+WTifyApp.factory("ChromeFunctions", function ($q) {
   return {
     getConfiguration(props) {
       const defer = $q.defer();
-      chrome.storage.sync.get(props, result => {
+      chrome.storage.sync.get(props, (result) => {
         defer.resolve(result);
       });
 
@@ -113,17 +135,21 @@ CxALinkerApp.factory("ChromeFunctions", function($q) {
     getCurrentUrl() {
       const defer = $q.defer();
 
-      chrome.tabs.query({ active: true, lastFocusedWindow: true }, tabs => {
+      chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         defer.resolve(tabs[0].url);
       });
 
       return defer.promise;
     },
 
+    setValue(key, value) {
+      chrome.storage.sync.set({ key, value });
+    },
+
     copyToClipboard(url) {
       const input = document.createElement("input");
       input.style.position = "fixed";
-      input.style.opacity = 0;
+      input.style.opacity = "0";
       input.value = url;
       document.body.appendChild(input);
       input.select();
