@@ -18,7 +18,6 @@ import IconStackOverflow from '@/components/icons/IconStackOverflow';
 import IconTwitter from '@/components/icons/IconTwitter';
 import IconYouTube from '@/components/icons/IconYouTube';
 import LinkCard from '@/components/LinkCard';
-import Axios from 'axios';
 
 /* eslint-disable */
 const customURL = helpers.regex(
@@ -31,18 +30,6 @@ const customURL = helpers.regex(
 export default {
   name: 'LinkShare',
   components: {
-    //IconBase,
-    // IconTwitter,
-    // IconLinkedIn,
-    // IconReddit,
-    // IconFacebook,
-    // IconStackOverflow,
-    // IconHackerNews,
-    // IconMedium,
-    // IconDevTo,
-    // IconYouTube,
-    // IconGitHub,
-    // IconMicrosoft,
     LinkCard,
   },
   data() {
@@ -196,42 +183,6 @@ export default {
         });
       });
     },
-    // twitter() {
-    //   this.addTracking('twitter', 'social');
-    // },
-    // linkedin() {
-    //   this.addTracking('linkedin', 'social');
-    // },
-    // reddit() {
-    //   this.addTracking('reddit', 'social');
-    // },
-    // facebook() {
-    //   this.addTracking('facebook', 'social');
-    // },
-    // stackoverflow() {
-    //   this.addTracking('stackoverflow', 'social');
-    // },
-    // hackernews() {
-    //   this.addTracking('hackernews', 'social');
-    // },
-    // azuremedium() {
-    //   this.addTracking('azuremedium', 'blog');
-    // },
-    // medium() {
-    //   this.addTracking('medium', 'blog');
-    // },
-    // youtube() {
-    //   this.addTracking(this.area, 'youtube');
-    // },
-    // github() {
-    //   this.addTracking(this.area, 'github');
-    // },
-    // devto() {
-    //   this.addTracking('devto', 'blog');
-    // },
-    // microsoft() {
-    //   this.addTracking('itopstalk', 'blog');
-    // },
   },
 };
 </script>
