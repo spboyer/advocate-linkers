@@ -18,6 +18,7 @@ import IconStackOverflow from '@/components/icons/IconStackOverflow';
 import IconTwitter from '@/components/icons/IconTwitter';
 import IconYouTube from '@/components/icons/IconYouTube';
 import LinkCard from '@/components/LinkCard';
+import Axios from 'axios';
 
 /* eslint-disable */
 const customURL = helpers.regex(
@@ -30,25 +31,25 @@ const customURL = helpers.regex(
 export default {
   name: 'LinkShare',
   components: {
-    IconBase,
-    IconTwitter,
-    IconLinkedIn,
-    IconReddit,
-    IconFacebook,
-    IconStackOverflow,
-    IconHackerNews,
-    IconMedium,
-    IconDevTo,
-    IconYouTube,
-    IconGitHub,
-    IconMicrosoft,
+    //IconBase,
+    // IconTwitter,
+    // IconLinkedIn,
+    // IconReddit,
+    // IconFacebook,
+    // IconStackOverflow,
+    // IconHackerNews,
+    // IconMedium,
+    // IconDevTo,
+    // IconYouTube,
+    // IconGitHub,
+    // IconMicrosoft,
     LinkCard,
   },
   data() {
     return {
       copied: '',
-      tactic: '',
-      category: '',
+      area: '',
+      devops_id: '',
       urlToShare: '',
       longLink: '',
       shortLink: '',
@@ -64,20 +65,22 @@ export default {
       required,
       customURL,
     },
-    tactic: {
+    area: {
       required,
     },
-    category: {
+    devops_id: {
       required,
     },
   },
   created() {
     this.getAlias();
+    this.getAreas();
   },
   methods: {
     async reloadSettings() {
       await Promise.all([
         this.getAlias(),
+        this.getAreas(),
         this.getShortUsername(),
         this.getShortApiKey(),
         this.getShortenerProvider(),
@@ -114,6 +117,32 @@ export default {
         .shortenerProvider()
         .then(result => (this.shortenerProvider = result));
     },
+    getAreas() {
+      return [
+              "academic",
+              "aiml",
+              "containers",
+              "data",
+              "devcloud",
+              "devops",
+              "dotnet",
+              "enterprise",
+              "green",
+              "iot",
+              "java",
+              "javascript",
+              "m365 ",
+              "mobile",
+              "modinfra",
+              "modops",
+              "opensource",
+              "power",
+              "python",
+              "quantum",
+              "spatial",
+              "startup"
+            ]
+    },
     /* eslint-enable */
     async create() {
       await this.reloadSettings();
@@ -126,8 +155,8 @@ export default {
       }
       this.longLink = tracking.addTracking(
         this.urlToShare,
-        this.tactic,
-        this.category,
+        this.area,
+        this.devops_id,
         this.alias
       );
 
@@ -144,65 +173,65 @@ export default {
         });
       }
     },
-    addTracking(tactic, category) {
+    addTracking(area, devops_id) {
       let ai = this.$appInsights;
       this.reloadSettings().then(() => {
         this.shortLink = '';
-        this.tactic = tactic;
-        this.category = category;
+        this.area = area;
+        this.devops_id = devops_id;
         this.longLink = tracking.addTracking(
           this.urlToShare,
-          tactic,
-          category,
+          area,
+          devops_id,
           this.alias
         );
         ai.trackEvent({
           name: 'addTracking',
           properties: {
-            tactic,
-            category,
+            area,
+            devops_id,
             alias: this.alias,
             url: this.urlToShare,
           },
         });
       });
     },
-    twitter() {
-      this.addTracking('twitter', 'social');
-    },
-    linkedin() {
-      this.addTracking('linkedin', 'social');
-    },
-    reddit() {
-      this.addTracking('reddit', 'social');
-    },
-    facebook() {
-      this.addTracking('facebook', 'social');
-    },
-    stackoverflow() {
-      this.addTracking('stackoverflow', 'social');
-    },
-    hackernews() {
-      this.addTracking('hackernews', 'social');
-    },
-    azuremedium() {
-      this.addTracking('azuremedium', 'blog');
-    },
-    medium() {
-      this.addTracking('medium', 'blog');
-    },
-    youtube() {
-      this.addTracking(this.tactic, 'youtube');
-    },
-    github() {
-      this.addTracking(this.tactic, 'github');
-    },
-    devto() {
-      this.addTracking('devto', 'blog');
-    },
-    microsoft() {
-      this.addTracking('itopstalk', 'blog');
-    },
+    // twitter() {
+    //   this.addTracking('twitter', 'social');
+    // },
+    // linkedin() {
+    //   this.addTracking('linkedin', 'social');
+    // },
+    // reddit() {
+    //   this.addTracking('reddit', 'social');
+    // },
+    // facebook() {
+    //   this.addTracking('facebook', 'social');
+    // },
+    // stackoverflow() {
+    //   this.addTracking('stackoverflow', 'social');
+    // },
+    // hackernews() {
+    //   this.addTracking('hackernews', 'social');
+    // },
+    // azuremedium() {
+    //   this.addTracking('azuremedium', 'blog');
+    // },
+    // medium() {
+    //   this.addTracking('medium', 'blog');
+    // },
+    // youtube() {
+    //   this.addTracking(this.area, 'youtube');
+    // },
+    // github() {
+    //   this.addTracking(this.area, 'github');
+    // },
+    // devto() {
+    //   this.addTracking('devto', 'blog');
+    // },
+    // microsoft() {
+    //   this.addTracking('itopstalk', 'blog');
+    // },
   },
 };
 </script>
@@ -213,7 +242,7 @@ export default {
     <v-card class="card">
       <v-card-title>
         <h3 class="grey--text">
-          Tracking link format follows: tactic-category-alias
+          Tracking link format follows: area-ID-alias
         </h3>
       </v-card-title>
       <v-flex md6 offset-md3>
@@ -254,32 +283,33 @@ export default {
               ></v-text-field>
             </v-flex>
             <v-flex xs5>
-              <v-text-field
-                id="tactic-code"
-                name="tactic-code"
-                @blur="$v.tactic.$touch()"
+              <v-select
+                id="area-code"
+                name="area-code"
+                @blur="$v.area.$touch()"
                 :class="{
-                  'is-invalid': $v.tactic.$invalid && $v.tactic.$dirty,
-                  'is-valid': !$v.tactic.$invalid,
+                  'is-invalid': $v.area.$invalid && $v.area.$dirty,
+                  'is-valid': !$v.area.$invalid,
                 }"
-                aria-describedby="tactic-code-describe"
-                v-model="tactic"
-                label="Tactic"
-                prepend-icon="tactic"
-              ></v-text-field>
+                :items="getAreas()"
+                aria-describedby="area-code-describe"
+                v-model="area"
+                label="Area"
+                prepend-icon="area"
+              ></v-select>
             </v-flex>
             <v-flex xs5>
               <v-text-field
-                id="category-code"
-                name="category-code"
-                @blur="$v.category.$touch()"
+                id="devops_id-code"
+                name="devops_id-code"
+                @blur="$v.devops_id.$touch()"
                 :class="{
-                  'is-invalid': $v.category.$invalid && $v.category.$dirty,
-                  'is-valid': !$v.category.$invalid,
+                  'is-invalid': $v.devops_id.$invalid && $v.devops_id.$dirty,
+                  'is-valid': !$v.devops_id.$invalid,
                 }"
-                aria-describedby="category-code-describe"
-                v-model="category"
-                label="Category"
+                aria-describedby="devops_id-code-describe"
+                v-model="devops_id"
+                label="ID Link to ADO"
                 prepend-icon="input"
               ></v-text-field>
             </v-flex>
@@ -299,7 +329,7 @@ export default {
 
     <LinkCard :longLink="longLink" :shortLink="shortLink" @copy="copySuccess" />
 
-    <v-container>
+    <!-- <v-container>
       <v-layout row wrap>
         <v-flex md4>
           <v-card light class="card" min-height="350px">
@@ -307,10 +337,10 @@ export default {
               <div>
                 <div class="headline">Social Presets</div>
                 <div class="preset-text">
-                  category is set to <b>social</b> for the associated platform.
+                  devops_id is set to <b>social</b> for the associated platform.
                 </div>
                 <div class="preset-example">
-                  i.e. tactic-social-myalias
+                  i.e. area-social-myalias
                 </div>
               </div>
             </v-card-title>
@@ -368,7 +398,7 @@ export default {
               <div>
                 <div class="headline">Blog Presets</div>
                 <div class="preset-text">
-                  category is set to
+                  devops_id is set to
                   <b>blog</b> for the associated platform.
                 </div>
                 <div class="preset-example">
@@ -421,8 +451,8 @@ export default {
               <div>
                 <div class="headline">Other Presets</div>
                 <div class="preset-text">
-                  Various quick links to set category. Uses the value from
-                  <b>tactic</b>.
+                  Various quick links to set devops_id. Uses the value from
+                  <b>area</b>.
                 </div>
               </div>
             </v-card-title>
@@ -448,7 +478,7 @@ export default {
           </v-card>
         </v-flex>
       </v-layout>
-    </v-container>
+    </v-container> -->
   </div>
 </template>
 
