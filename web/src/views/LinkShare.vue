@@ -36,7 +36,7 @@ export default {
     return {
       copied: '',
       area: '',
-      devops_id: '',
+      devops_id: '00000',
       urlToShare: '',
       longLink: '',
       shortLink: '',
@@ -260,7 +260,7 @@ export default {
                 }"
                 aria-describedby="devops_id-code-describe"
                 v-model="devops_id"
-                label="ID Link to ADO"
+                label="ID Link to ADO (or 00000)"
                 prepend-icon="input"
               ></v-text-field>
             </v-flex>
