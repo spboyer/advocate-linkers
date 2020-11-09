@@ -118,7 +118,7 @@ export default {
               "iot",
               "java",
               "javascript",
-              "m365 ",
+              "m365",
               "mobile",
               "modinfra",
               "modops",
