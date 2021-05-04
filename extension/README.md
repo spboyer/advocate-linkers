@@ -4,6 +4,8 @@ A Chrome Extension that allows for the simple creation and shortening of links t
 
 ## Installing
 
+### Chrome
+
 1. Clone this repo
 
 2. In Google Chrome, navigate to `chrome://extensions` and turn on the "Developer Mode" toggle.
@@ -11,6 +13,17 @@ A Chrome Extension that allows for the simple creation and shortening of links t
 3. Select "Load Unpacked"
 
 4. Select the folder that you cloned to
+
+### Edge
+
+1. Clone this repo
+
+2. In Google Chrome, navigate to `edge://extensions/` and turn on the "Developer Mode" toggle.
+
+3. Select "Load Unpacked"
+
+4. Select the folder that you cloned to
+
 
 ## Use
 
