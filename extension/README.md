@@ -18,7 +18,7 @@ A Chrome Extension that allows for the simple creation and shortening of links t
 
 1. Clone this repo
 
-2. In Google Chrome, navigate to `edge://extensions/` and turn on the "Developer Mode" toggle.
+2. In Microsoft Edge, navigate to `edge://extensions/` and turn on the "Developer Mode" toggle.
 
 3. Select "Load Unpacked"
 
