@@ -43,7 +43,7 @@
         <div class="field">
           <div class="control">
             <label class="label">Area Path</label>
-            <select class="select" ng-model="config.values.areaPath">
+            <select class="select" ng-model="config.values.areaPath" ng-change="saveConfiguration()">
               <option ng-repeat="areaPath in areaPaths">{{areaPath}}</option>
             </select>
             <!-- <input ng-model="config.values.areaPath" class="input card-footer-item" type="text"
