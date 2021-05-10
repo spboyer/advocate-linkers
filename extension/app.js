@@ -8,12 +8,12 @@ WTifyApp.controller("PopupController", function (
 ) {
   ($scope.areaPaths = []), ($scope.originalUrl = "https://www.google.com");
   $scope.config = {
-    props: ["areaPath", "ADOid", "alias"]
+    props: ["areaPath", "ADOid", "alias", "keepLocale"]
   };
 
   /* These three functions are called when the extension is opened */
 
-  // 1. Gets the last stored alias, areapath and adoid from local storage
+  // 1. Gets the last stored alias, areapath, adoid and keepLocale from local storage
   ChromeFunctions.getConfiguration($scope.config.props).then((result) => {
     $scope.config.values = result;
   });
@@ -29,6 +29,11 @@ WTifyApp.controller("PopupController", function (
   });
 
   /* */
+
+  $scope.changeLocaleConfig = function () {
+    $scope.config.values.keepLocale = !$scope.config.values.keepLocale;
+    $scope.saveConfiguration();
+  };
 
   $scope.saveConfiguration = function () {
     chrome.storage.sync.set($scope.config.values);
@@ -76,7 +81,7 @@ WTifyApp.service("LinkService", function ($q, $http) {
   return {
     track(url, config) {
       var separator =
-          (url = url.replace(
+          (url = config.values.keepLocale ? url : url.replace(
             /microsoft.com\/\w{2}-\w{2}\//g,
             "microsoft.com/"
           )).indexOf("?") > 0
@@ -92,9 +97,10 @@ WTifyApp.service("LinkService", function ($q, $http) {
       config.values.ADOid = config.values.ADOid || "0000";
 
       // add in the tracking details
-      config.props.forEach((prop, index) => {
+      const urlProps = [...config.props].splice(0, 3);
+      urlProps.forEach((prop, index) => {
         wtUrl = `${wtUrl}${config.values[prop]}`;
-        index < config.props.length - 1 && (wtUrl += "-");
+        index < urlProps.length - 1 && (wtUrl += "-");
       });
 
       return wtUrl + fragment;
@@ -157,4 +163,22 @@ WTifyApp.factory("ChromeFunctions", function ($q) {
       document.body.removeChild(input);
     }
   };
+});
+
+WTifyApp.component("wtSwitch", {
+  template: `
+    <div class="switch" ng-click="">
+      <input type="checkbox" ng-model="$ctrl.checked">
+      <span class="slider round" ng-click="$ctrl.switch()"></span>
+    </div>
+  `,
+  bindings: {
+    checked: '<',
+    wtChange: '&'
+  },
+  controller: function() {
+    this.switch = function () {
+      this.wtChange();
+    }
+  }
 });
