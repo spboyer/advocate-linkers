@@ -40,14 +40,22 @@
     <section>
       <div>
         <label for="" class="label">URL Configuration</label>
-        <div class="field">
-          <div class="control">
-            <label class="label">Area Path</label>
-            <select class="select" ng-model="config.values.areaPath" ng-change="saveConfiguration()">
-              <option ng-repeat="areaPath in areaPaths">{{areaPath}}</option>
-            </select>
-            <!-- <input ng-model="config.values.areaPath" class="input card-footer-item" type="text"
-              ng-blur="saveConfiguration()" /> -->
+        <div class="columns">
+          <div class="column field">
+            <div class="control">
+              <label class="label">Area Path</label>
+              <div class="select">
+                <select class="select" ng-model="config.values.areaPath" ng-change="saveConfiguration()">
+                  <option ng-repeat="areaPath in areaPaths">{{areaPath}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="column field">
+            <div class="control">
+              <label class="label">Keep Locale</label>
+              <wt-switch checked="config.values.keepLocale" wt-change="changeLocaleConfig()" ng-mouseenter="logValue()"></wt-switch>
+            </div>
           </div>
         </div>
         <div class="field">
