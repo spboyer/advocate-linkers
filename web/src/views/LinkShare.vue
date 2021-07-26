@@ -126,6 +126,7 @@ export default {
               "power",
               "python",
               "quantum",
+              "security",
               "spatial",
               "startup"
             ]
