@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@microsoft/applicationinsights-web": "^2.2.4",
-    "axios": "^0.19.0",
+    "axios": ">=0.21.1",
     "localforage": "^1.7.3",
     "vue": "^2.6.10",
     "vue-application-insights": "^1.0.6",
