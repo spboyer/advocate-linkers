@@ -44,7 +44,9 @@ WTifyApp.controller("PopupController", function (
     const trackedUrl = LinkService.track(this.originalUrl, this.config);
     LinkService.shorten(trackedUrl)
       .then((result) => {
-        ChromeFunctions.copyToClipboard(result);
+        return ChromeFunctions.copyToClipboard(result);
+      })
+      .then(() => {
         window.close();
       })
       .catch(() => {
@@ -54,8 +56,9 @@ WTifyApp.controller("PopupController", function (
 
   $scope.trackUrl = function () {
     const trackedUrl = LinkService.track(this.originalUrl, this.config);
-    ChromeFunctions.copyToClipboard(trackedUrl);
-    window.close();
+    ChromeFunctions.copyToClipboard(trackedUrl).then(() => {
+      window.close();
+    });
   };
 });
 
@@ -153,6 +156,27 @@ WTifyApp.factory("ChromeFunctions", function ($q) {
     },
 
     copyToClipboard(url) {
+      const defer = $q.defer();
+      
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        // Use modern Clipboard API
+        navigator.clipboard.writeText(url).then(() => {
+          defer.resolve();
+        }).catch((err) => {
+          // Fallback to old method if modern API fails
+          this.fallbackCopyToClipboard(url);
+          defer.resolve();
+        });
+      } else {
+        // Fallback for browsers that don't support the modern API
+        this.fallbackCopyToClipboard(url);
+        defer.resolve();
+      }
+      
+      return defer.promise;
+    },
+
+    fallbackCopyToClipboard(url) {
       const input = document.createElement("input");
       input.style.position = "fixed";
       input.style.opacity = "0";
