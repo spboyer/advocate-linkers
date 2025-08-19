@@ -1,6 +1,6 @@
 const { appendTrackingInfo } = require('../src/cda-tracker');
 const { JSDOM } = require('jsdom');
-const dom = new JSDOM();
+const dom = new JSDOM("", { url: "https://localhost" });
 const document = dom.window.document;
 
 test('Link that doesn\'t match whitelist should not have tracking attached', () => {
